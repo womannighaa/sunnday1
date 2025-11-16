@@ -21,6 +21,7 @@ export interface Product {
   colors: string[];
   sizes: string[];
   image_url: string | null;
+  images: string[];
   featured: boolean;
   in_stock: boolean;
   sort_order: number;

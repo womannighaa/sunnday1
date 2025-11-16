@@ -9,6 +9,8 @@ import WhatsAppCTA from './components/WhatsAppCTA';
 import Newsletter from './components/Newsletter';
 import Footer from './components/Footer';
 import WhatsAppFloating from './components/WhatsAppFloating';
+import { CartProvider } from './context/CartContext';
+import { WishlistProvider } from './context/WishlistContext';
 
 function App() {
   const [currentCategory, setCurrentCategory] = useState<string>('all');
@@ -32,37 +34,41 @@ function App() {
   const isSpecificCategory = ['men', 'women', 'unisex'].includes(currentCategory);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header
-        onCategoryChange={handleCategoryChange}
-        currentCategory={currentCategory}
-        onSearch={handleSearch}
-      />
+    <CartProvider>
+      <WishlistProvider>
+        <div className="min-h-screen bg-gray-50">
+          <Header
+            onCategoryChange={handleCategoryChange}
+            currentCategory={currentCategory}
+            onSearch={handleSearch}
+          />
 
-      {showHero && currentCategory === 'all' && (
-        <>
-          <Hero onShopClick={handleCategoryChange} />
-          <FeaturedCollections onCollectionClick={handleCategoryChange} />
-          <BrandStory />
-        </>
-      )}
+          {showHero && currentCategory === 'all' && (
+            <>
+              <Hero onShopClick={handleCategoryChange} />
+              <FeaturedCollections onCollectionClick={handleCategoryChange} />
+              <BrandStory />
+            </>
+          )}
 
-      {isSpecificCategory && !searchQuery && (
-        <CategoryHero category={currentCategory as 'men' | 'women' | 'unisex'} />
-      )}
+          {isSpecificCategory && !searchQuery && (
+            <CategoryHero category={currentCategory as 'men' | 'women' | 'unisex'} />
+          )}
 
-      <ProductGrid category={currentCategory} searchQuery={searchQuery} />
+          <ProductGrid category={currentCategory} searchQuery={searchQuery} />
 
-      {showHero && currentCategory === 'all' && (
-        <>
-          <WhatsAppCTA />
-          <Newsletter />
-        </>
-      )}
+          {showHero && currentCategory === 'all' && (
+            <>
+              <WhatsAppCTA />
+              <Newsletter />
+            </>
+          )}
 
-      <Footer />
-      <WhatsAppFloating />
-    </div>
+          <Footer />
+          <WhatsAppFloating />
+        </div>
+      </WishlistProvider>
+    </CartProvider>
   );
 }
 
